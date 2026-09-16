@@ -1,6 +1,6 @@
 #include "input.h"
 
-typedef struct Floresta Floresta;
+typedef struct Celula Celula;
 
-int criar_floresta(const Entrada *entrada, Floresta *floresta);
-void liberar_floresta(Floresta *floresta);
+int criar_floresta(const Entrada *entrada, Celula **celulas);
+void liberar_floresta(Celula *celulas);
