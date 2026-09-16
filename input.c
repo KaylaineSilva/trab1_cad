@@ -107,7 +107,9 @@ void imprimir_entrada(const Entrada *entrada) {
 }
 
 /*
-
+Função: 
+Descrição:
+Saída: 
 */
 int ler_entrada(const char *nome_arquivo, Entrada *entrada){
     int f, z;
@@ -256,6 +258,11 @@ int ler_entrada(const char *nome_arquivo, Entrada *entrada){
     return 1; //leitura bem sucedida
 }
 
+/*
+Função:
+Descrição:
+Saída: sem saída. 
+*/
 void liberar_entrada(Entrada *entrada) {
     if (entrada != NULL) {
         //liberar as matrizes alocadas dinamicamente

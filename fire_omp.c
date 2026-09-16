@@ -13,6 +13,12 @@ int main(int argc, char *argv[]) {
 
     imprimir_entrada(entrada);
 
+    //Usar a entrada para montar a floresta (matriz)
+
+    // Rodar a simulação 
+
+    // Calcular os resultados
+
     liberar_entrada(entrada);
     return EXIT_SUCCESS;
 }
