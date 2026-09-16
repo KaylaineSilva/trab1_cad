@@ -259,6 +259,46 @@ int ler_entrada(const char *nome_arquivo, Entrada *entrada){
 }
 
 /*
+Retorna o valor do tipo solicitado
+*/
+int get_value(Entrada *entrada, char tipo){
+    switch(tipo){
+        case 'l':
+            return entrada->config.linhas;
+        case 'c':
+            return entrada->config.colunas;
+        case 'p':
+            return entrada->config.passos;
+        case 't':
+            return entrada->config.threads;
+        case 's':
+            return entrada->config.seed;
+        case 'i':
+            return entrada->config.limiar;
+        case 'f':
+            return entrada->qtd_focos;
+        case 'z':
+            return entrada->qtd_zonas;
+        default:
+            return -1; //tipo inválido
+    }
+}
+
+Foco *get_foco(Entrada *entrada, int indice){
+    return &entrada->focos[indice];
+}
+
+int get_foco_linha(Foco *foco){
+    return foco->linha;
+}
+
+int get_foco_coluna(Foco *foco){
+    return foco->coluna;
+}
+
+
+
+/*
 Função:
 Descrição:
 Saída: sem saída. 
