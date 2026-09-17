@@ -128,6 +128,8 @@ int alocar_floresta(Floresta *floresta, int linhas, int colunas) {
         floresta->proximo_tempo == NULL ||
         floresta->ativacao == NULL) {
 
+            
+        liberar_floresta(floresta);
         return 0;
     }
 
@@ -188,6 +190,7 @@ int criar_floresta(const Entrada *entrada, Floresta *floresta){
         //Verificar se é um estado de não combustível -> a entrada é inválida
         if(floresta->estado_atual[indice] == 0) {
             fprintf(stderr, "Entrada inválida, um foco de incêndia está sob uma célula não combustível.\n");
+            liberar_floresta(floresta);
             return 0; 
         }
 
