@@ -4,21 +4,51 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Config Config;
-typedef struct Vento Vento;
-typedef struct Foco Foco;
-typedef struct ZonaContencao ZonaContencao;
-typedef struct Entrada Entrada;
+// Definição das structs 
+
+// Struct para a configuração da matriz de simulação
+typedef struct  {
+    int linhas;
+    int colunas;
+    int passos;
+    int threads;
+    unsigned int seed;
+    int limiar;
+} Config;
+
+// struct para representar o vento
+typedef struct {
+    int linha;
+    int coluna;
+    int intensidade;
+} Vento;
+
+typedef struct {
+    int linha;
+    int coluna;
+} Foco;
+ 
+typedef struct {
+    int passo_ativacao;
+    int linha_inicio;
+    int coluna_inicio;
+    int linha_fim;
+    int coluna_fim;
+} ZonaContencao;
+
+typedef struct {
+    Config config;
+    Vento vento;
+
+    int qtd_focos;
+    Foco *focos;
+
+    int qtd_zonas;
+    ZonaContencao *zonas;
+} Entrada;
 
 int ler_entrada(const char *nome_arquivo, Entrada *entrada);
 void imprimir_entrada(const Entrada *entrada);
-int get_value(Entrada *entrada, char tipo);
-
-Foco get_foco(Entrada *entrada, int indice);
-int get_foco_linha(Foco *foco);
-int get_foco_coluna(Foco *foco);
-
-
 void liberar_entrada(Entrada *entrada);
 
 #endif // INPUT_H

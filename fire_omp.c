@@ -1,4 +1,5 @@
 #include "input.h"
+#include "floresta.h"
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {
@@ -6,12 +7,23 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    Entrada *entrada;
-    if (!ler_entrada(argv[1], entrada)) {
+    Entrada entrada;
+    if (!ler_entrada(argv[1], &entrada)) {
         return EXIT_FAILURE;
     }
 
-    imprimir_entrada(entrada);
+    imprimir_entrada(&entrada);
+
+    Floresta floresta;
+
+    
+    if (!criar_floresta(&entrada, &floresta)) {
+        liberar_entrada(&entrada);
+        return 1;
+    }
+
+    imprimir_floresta(&floresta, entrada.config.linhas, entrada.config.colunas);
+
 
     //Usar a entrada para montar a floresta (matriz)
 
@@ -19,6 +31,8 @@ int main(int argc, char *argv[]) {
 
     // Calcular os resultados
 
-    liberar_entrada(entrada);
+    liberar_floresta(&floresta);
+    liberar_entrada(&entrada);
+
     return EXIT_SUCCESS;
 }

@@ -2,49 +2,6 @@
 #include <stdio.h>
 #include "input.h"
 
-// Definição das structs 
-
-// Struct para a configuração da matriz de simulação
-struct Config {
-    int linhas;
-    int colunas;
-    int passos;
-    int threads;
-    unsigned int seed;
-    int limiar;
-};
-
-// struct para representar o vento
-struct Vento {
-    int linha;
-    int coluna;
-    int intensidade;
-};
-
-struct Foco {
-    int linha;
-    int coluna;
-};
- 
-struct ZonaContencao {
-    int passo_ativacao;
-    int linha_inicio;
-    int coluna_inicio;
-    int linha_fim;
-    int coluna_fim;
-};
-
-struct Entrada{
-    Config config;
-    Vento vento;
-
-    int qtd_focos;
-    Foco *focos;
-
-    int qtd_zonas;
-    ZonaContencao *zonas;
-};
-
 void imprimir_configuracao(const Config *config) {
     printf("=== CONFIGURACAO ===\n");
     printf("Linhas: %d\n", config->linhas);
@@ -138,8 +95,8 @@ int ler_entrada(const char *nome_arquivo, Entrada *entrada){
            entrada->config.limiar);
 
     // 2. validar configuração
-    if(entrada->config.linhas <= 0 || entrada->config.colunas <= 0 || entrada->config.passos < 0 || entrada->config.threads <= 0) {
-        fprintf(stderr, "Configuração inválida: linhas, colunas, passos e threads devem ser positivos.\n");
+    if(entrada->config.linhas <= 0 || entrada->config.colunas <= 0 || entrada->config.passos < 0 || entrada->config.threads <= 0 || entrada->config.limiar<=0) {
+        fprintf(stderr, "Configuração inválida: linhas, colunas, passos, threads e limiar devem ser positivos.\n");
         fclose(arquivo);
         return 0;
     }
@@ -175,7 +132,6 @@ int ler_entrada(const char *nome_arquivo, Entrada *entrada){
         fclose(arquivo);
         return 0;
     }
-
     // 6. alocar focos
     // entrada->focos = malloc(...)
     entrada->focos = malloc(f * sizeof(Foco));
@@ -194,6 +150,13 @@ int ler_entrada(const char *nome_arquivo, Entrada *entrada){
     for (int i=0; i<f; i++){
         int linha = entrada->focos[i].linha;
         int coluna = entrada->focos[i].coluna;
+
+        if (linha < 0 || linha >= entrada->config.linhas || coluna < 0 || coluna >= entrada->config.colunas) {
+            fprintf(stderr, "Foco fora dos limites da matriz.\n");
+            free(foco_usado);
+            fclose(arquivo);
+            return 0;
+        }
 
         long long indice = (long long) linha * entrada->config.colunas + coluna;
     
@@ -257,46 +220,6 @@ int ler_entrada(const char *nome_arquivo, Entrada *entrada){
 
     return 1; //leitura bem sucedida
 }
-
-/*
-Retorna o valor do tipo solicitado
-*/
-int get_value(Entrada *entrada, char tipo){
-    switch(tipo){
-        case 'l':
-            return entrada->config.linhas;
-        case 'c':
-            return entrada->config.colunas;
-        case 'p':
-            return entrada->config.passos;
-        case 't':
-            return entrada->config.threads;
-        case 's':
-            return entrada->config.seed;
-        case 'i':
-            return entrada->config.limiar;
-        case 'f':
-            return entrada->qtd_focos;
-        case 'z':
-            return entrada->qtd_zonas;
-        default:
-            return -1; //tipo inválido
-    }
-}
-
-Foco *get_foco(Entrada *entrada, int indice){
-    return &entrada->focos[indice];
-}
-
-int get_foco_linha(Foco *foco){
-    return foco->linha;
-}
-
-int get_foco_coluna(Foco *foco){
-    return foco->coluna;
-}
-
-
 
 /*
 Função:

@@ -1,6 +1,24 @@
+#ifndef FLORESTA_H
+#define FLORESTA_H
+
 #include "input.h"
 
-typedef struct Celula Celula;
+typedef struct {
+    int *cobertura;
+    int *umidade;
 
-int criar_floresta(const Entrada *entrada, Celula *celula);
-void liberar_floresta(Celula *celula);
+    int *estado_atual;
+    int *proximo_estado;
+
+    int *tempo_queima;
+    int *proximo_tempo;
+
+    int *ativacao;
+} Floresta;
+
+int criar_floresta(const Entrada *entrada, Floresta *floresta);
+void liberar_floresta(Floresta *floresta);
+
+void imprimir_floresta(const Floresta *floresta,int linhas,int colunas);
+
+#endif
