@@ -86,13 +86,13 @@ int ler_entrada(const char *nome_arquivo, Entrada *entrada){
            &entrada->config.seed,
            &entrada->config.limiar);
     
-    printf("Configuração lida: linhas=%d, colunas=%d, passos=%d, threads=%d, seed=%u, limiar=%d\n",
+    /*printf("Configuração lida: linhas=%d, colunas=%d, passos=%d, threads=%d, seed=%u, limiar=%d\n",
            entrada->config.linhas,
            entrada->config.colunas,
            entrada->config.passos,
            entrada->config.threads,
            entrada->config.seed,
-           entrada->config.limiar);
+           entrada->config.limiar);*/
 
     // 2. validar configuração
     if(entrada->config.linhas <= 0 || entrada->config.colunas <= 0 || entrada->config.passos < 0 || entrada->config.threads <= 0 || entrada->config.limiar<=0) {
@@ -107,10 +107,10 @@ int ler_entrada(const char *nome_arquivo, Entrada *entrada){
            &entrada->vento.coluna,
            &entrada->vento.intensidade);
 
-    printf("Vento lido: linha=%d, coluna=%d, intensidade=%d\n",
+    /*printf("Vento lido: linha=%d, coluna=%d, intensidade=%d\n",
            entrada->vento.linha,
            entrada->vento.coluna,
-           entrada->vento.intensidade);
+           entrada->vento.intensidade);*/
     // 4. validar vento
     if((entrada->vento.linha<-1 || entrada->vento.linha>1) || (entrada->vento.coluna<-1 || entrada->vento.coluna>1) || (entrada->vento.linha==0 && entrada->vento.coluna==0) || (entrada->vento.intensidade<0 || entrada->vento.intensidade>5)) {
         fprintf(stderr, "Vento inválido: linha e coluna devem estar entre -1 e 1, e não podem ser ambos zero. E intensidade deve estar entre 0 e 5.\n");
@@ -125,7 +125,7 @@ int ler_entrada(const char *nome_arquivo, Entrada *entrada){
     entrada->qtd_focos=f;
     entrada->qtd_zonas=z;
 
-    printf("F: %d; Z: %d\n", f, z);
+    //printf("F: %d; Z: %d\n", f, z);
 
     if(f<0 || z<0){
         fprintf(stderr, "Quantidade de foco e de zonas de contenção devem ser maiores ou iguais a zero.\n");

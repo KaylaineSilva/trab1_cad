@@ -13,18 +13,15 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    imprimir_entrada(&entrada);
+    //imprimir_entrada(&entrada);
 
     Floresta floresta;
-
-    
     if (!criar_floresta(&entrada, &floresta)) {
         liberar_entrada(&entrada);
         return 1;
     }
 
     //imprimir_floresta(&floresta, entrada.config.linhas, entrada.config.colunas);
-
 
     //Usar a entrada para montar a floresta (matriz)
 
@@ -34,7 +31,7 @@ int main(int argc, char *argv[]) {
     simular_paralelo(&entrada, &floresta, &resultado);
 
     imprimir_resultados(&resultado);
-    
+
     liberar_floresta(&floresta);
     liberar_entrada(&entrada);
 
