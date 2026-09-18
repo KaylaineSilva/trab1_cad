@@ -10,8 +10,8 @@ typedef struct {
     int *estado_atual;
     int *proximo_estado;
 
-    int *tempo_queima;
-    int *proximo_tempo;
+    int *tempo_atual_queima;
+    int *proximo_tempo_queima;
 
     int *ativacao;
 } Floresta;

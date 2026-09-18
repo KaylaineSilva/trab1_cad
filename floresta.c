@@ -52,7 +52,7 @@ void imprimir_floresta(const Floresta *floresta, int linhas, int colunas) {
     printf("Tempo de queima\n\n");
     imprimir_matriz(
         "TEMPO DE QUEIMA",
-        floresta->tempo_queima,
+        floresta->tempo_atual_queima,
         linhas,
         colunas
     );
@@ -73,7 +73,7 @@ void imprimir_floresta(const Floresta *floresta, int linhas, int colunas) {
     );
 }
 
-int gerar_cobertura(int *seed){
+int gerar_cobertura(unsigned int *seed){
     int valor = rand_r(seed)%100;
 
     if(valor>=0 && valor<=9){
@@ -85,9 +85,11 @@ int gerar_cobertura(int *seed){
     } else if(valor>=55 && valor<=99){
         return 3;
     }
+
+    return -1;
 }
 
-int gerar_umidade(int *seed){
+int gerar_umidade(unsigned int *seed){
     return rand_r(seed)%101;
 }
 
@@ -104,6 +106,8 @@ int gerar_estado_atual(int cobertura){
         case 3: 
             return 1;
     }
+
+    return -1; //caso dê erro
 }
 
 int alocar_floresta(Floresta *floresta, int linhas, int colunas) {
@@ -115,8 +119,8 @@ int alocar_floresta(Floresta *floresta, int linhas, int colunas) {
     floresta->estado_atual = malloc(total * sizeof *floresta->estado_atual);
     floresta->proximo_estado = malloc(total * sizeof *floresta->proximo_estado);
 
-    floresta->tempo_queima = malloc(total * sizeof *floresta->tempo_queima);
-    floresta->proximo_tempo = malloc(total * sizeof *floresta->proximo_tempo);
+    floresta->tempo_atual_queima = malloc(total * sizeof *floresta->tempo_atual_queima);
+    floresta->proximo_tempo_queima = malloc(total * sizeof *floresta->proximo_tempo_queima);
 
     floresta->ativacao = malloc(total * sizeof *floresta->ativacao);
 
@@ -124,8 +128,8 @@ int alocar_floresta(Floresta *floresta, int linhas, int colunas) {
         floresta->umidade == NULL ||
         floresta->estado_atual == NULL ||
         floresta->proximo_estado == NULL ||
-        floresta->tempo_queima == NULL ||
-        floresta->proximo_tempo == NULL ||
+        floresta->tempo_atual_queima == NULL ||
+        floresta->proximo_tempo_queima == NULL ||
         floresta->ativacao == NULL) {
 
             
@@ -147,7 +151,7 @@ int criar_floresta(const Entrada *entrada, Floresta *floresta){
 
     int l = entrada->config.linhas;
     int c = entrada->config.colunas;
-    int seed = entrada->config.seed;
+    unsigned int seed = entrada->config.seed;
 
     //alocar memória para a floresta
     if(!alocar_floresta(floresta, l, c)) {
@@ -197,7 +201,7 @@ int criar_floresta(const Entrada *entrada, Floresta *floresta){
         floresta->estado_atual[indice] = 2;
 
         //Definindo o tempo de queima de acordo com a cobertura
-        floresta->tempo_queima[indice] = (floresta->cobertura[indice] == 2)? 2: 4;
+        floresta->tempo_atual_queima[indice] = (floresta->cobertura[indice] == 2)? 2: 4;
     }
 
     for (long long int z=0; z<entrada->qtd_zonas; z++){
@@ -233,8 +237,8 @@ void liberar_floresta(Floresta *floresta) {
     free(floresta->estado_atual);
     free(floresta->proximo_estado);
 
-    free(floresta->tempo_queima);
-    free(floresta->proximo_tempo);
+    free(floresta->tempo_atual_queima);
+    free(floresta->proximo_tempo_queima);
 
     free(floresta->ativacao);
 
@@ -244,8 +248,8 @@ void liberar_floresta(Floresta *floresta) {
     floresta->estado_atual = NULL;
     floresta->proximo_estado = NULL;
 
-    floresta->tempo_queima = NULL;
-    floresta->proximo_tempo = NULL;
+    floresta->tempo_atual_queima = NULL;
+    floresta->proximo_tempo_queima = NULL;
 
     floresta->ativacao = NULL;
 }

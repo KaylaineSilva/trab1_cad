@@ -1,5 +1,6 @@
 #include "input.h"
 #include "floresta.h"
+#include "simulacao_omp.h"
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {
@@ -22,15 +23,18 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    imprimir_floresta(&floresta, entrada.config.linhas, entrada.config.colunas);
+    //imprimir_floresta(&floresta, entrada.config.linhas, entrada.config.colunas);
 
 
     //Usar a entrada para montar a floresta (matriz)
 
-    // Rodar a simulação 
+    // Rodar a simulação e calcular os resultados
+    ResultadoSimulacao resultado;
 
-    // Calcular os resultados
+    simular_paralelo(&entrada, &floresta, &resultado);
 
+    imprimir_resultados(&resultado);
+    
     liberar_floresta(&floresta);
     liberar_entrada(&entrada);
 
